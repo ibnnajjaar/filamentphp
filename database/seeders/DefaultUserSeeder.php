@@ -16,7 +16,7 @@ class DefaultUserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@example.com'],
             [
-                'name' => 'Admin',
+                'name' => 'Administrator',
                 'email_verified_at' => now(),
                 'password' => bcrypt('password'),
             ]
