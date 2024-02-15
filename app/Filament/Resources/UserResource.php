@@ -45,17 +45,28 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                                          ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                                         ->icon(function ($record) {
+                                             if ($record->email_verified_at) {
+                                                 return 'heroicon-o-check-circle';
+                                             }
+                                             return 'heroicon-o-x-circle';
+                                         })
+                                         ->iconColor(function ($record) {
+                                             return $record->email_verified_at ? 'success' : 'danger';
+                                         })
+                                         ->copyable()
+                                         ->copyMessage('Email address copied')
                                          ->searchable(),
-//                Tables\Columns\TextColumn::make('roles.description')
-//                                         ->url(fn(User $record): string => $record->roles->isNotEmpty() ? route('filament.admin.resources.roles.edit', $record->roles?->first()) : "#"),
+                Tables\Columns\TextColumn::make('roles.description')
+                                         ->url(fn(User $record): string => $record->roles->isNotEmpty() ? route('filament.admin.resources.roles.edit', $record->roles?->first()) : "#"),
                 Tables\Columns\TextColumn::make('status')
                                          ->badge()
-                                         ->formatStateUsing(fn (User $record): string => $record->status->getLabel())
-                                         ->color(fn (User $record): string => $record->status->getColor())
+                                         ->formatStateUsing(fn(User $record): string => $record->status->getLabel())
+                                         ->color(fn(User $record): string => $record->status->getColor()),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('role')
-                                           ->relationship('roles', 'name')
+                                           ->relationship('roles', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

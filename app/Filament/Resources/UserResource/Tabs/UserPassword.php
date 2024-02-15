@@ -13,7 +13,7 @@ class UserPassword
     public function __invoke()
     {
         return Tabs\Tab::make('Password Change')
-            ->icon('heroicon-o-key')
+                       ->icon('heroicon-o-key')
                        ->schema(static::getPasswordFields());
     }
 
@@ -21,12 +21,14 @@ class UserPassword
     {
         return [
             Forms\Components\TextInput::make('password')
+                                      ->inlineLabel()
                                       ->password()
                                       ->minLength(8)
                                       ->confirmed()
                                       ->requiredWith('password_confirmation')
                                       ->maxLength(255),
             Forms\Components\TextInput::make('password_confirmation')
+                                      ->inlineLabel()
                                       ->password()
                                       ->dehydrated(false)
                                       ->same('password')

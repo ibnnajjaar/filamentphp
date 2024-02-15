@@ -28,5 +28,13 @@ class RolesSeeder extends Seeder
 
         $user = User::where('email', 'admin@example.com')->first();
         $user->roles()->sync([$role->id]);
+
+        $guest_user = Role::updateOrCreate(
+            ['name' => 'guest'],
+            [
+                'guard_name' => 'web',
+                'description' => 'Guest User',
+            ]
+        );
     }
 }

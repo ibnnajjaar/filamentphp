@@ -36,6 +36,7 @@ class User extends Authenticatable implements HasMedia, FilamentUser, HasAvatar
         'name',
         'email',
         'password',
+        'contact_number',
     ];
 
     protected $hidden = [
