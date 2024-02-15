@@ -5,18 +5,32 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use App\Support\Enums\UserStatuses;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\HasAvatar;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia, FilamentUser, HasAvatar
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
+    use HasRoles;
+    use InteractsWithMedia;
 
+
+    protected $attributes = [
+        'status' => UserStatuses::Pending,
+    ];
 
     protected $fillable = [
         'name',
@@ -32,11 +46,49 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'status' => UserStatuses::class,
     ];
 
+    public function avatarImages(): MorphMany
+    {
+        return $this->media()->where('collection_name', 'avatar');
+    }
+
+    public function scopeUserVisible($query, ?User $user = null)
+    {
+        $user ??= auth()->user();
+        if ($user->can('view any user')) {
+            return $query;
+        }
+
+        if ($user->can('view users')) {
+            return $query->where('id', $user->id);
+        }
+
+        return $query->where('id', -1);
+    }
 
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->hasVerifiedEmail();
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')
+             ->singleFile();
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function avatar(): Attribute
+    {
+        return Attribute::get(function () {
+            $this->loadMissing('avatarImages');
+            return $this->avatarImages->first()?->getUrl() ?: asset('images/anonymous-user.jpg');
+        });
     }
 }

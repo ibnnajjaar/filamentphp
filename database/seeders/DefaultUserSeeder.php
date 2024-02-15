@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use App\Support\Enums\UserStatuses;
 
 class DefaultUserSeeder extends Seeder
 {
@@ -18,6 +19,7 @@ class DefaultUserSeeder extends Seeder
                 'name' => 'Administrator',
                 'email_verified_at' => now(),
                 'password' => bcrypt('password'),
+                'status' => UserStatuses::Active,
             ]
         );
     }
