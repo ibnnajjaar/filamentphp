@@ -46,20 +46,16 @@ class UserResource extends Resource
                                          ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                                          ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                                         ->dateTime()
-                                         ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                                         ->dateTime()
-                                         ->sortable()
-                                         ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                                         ->dateTime()
-                                         ->sortable()
-                                         ->toggleable(isToggledHiddenByDefault: true),
+//                Tables\Columns\TextColumn::make('roles.description')
+//                                         ->url(fn(User $record): string => $record->roles->isNotEmpty() ? route('filament.admin.resources.roles.edit', $record->roles?->first()) : "#"),
+                Tables\Columns\TextColumn::make('status')
+                                         ->badge()
+                                         ->formatStateUsing(fn (User $record): string => $record->status->getLabel())
+                                         ->color(fn (User $record): string => $record->status->getColor())
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('role')
+                                           ->relationship('roles', 'name')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
