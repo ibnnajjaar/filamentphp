@@ -42,6 +42,7 @@ class ActivityResource extends Resource
                                          ->searchable()
                                          ->sortable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
@@ -66,6 +67,7 @@ class ActivityResource extends Resource
     {
         return [
             'index'  => Pages\ListActivities::route('/'),
+            'view'  => Pages\ViewActivity::route('/{record}'),
         ];
     }
 }

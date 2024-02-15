@@ -78,7 +78,7 @@ class User extends Authenticatable implements HasMedia, FilamentUser, HasAvatar
     {
         return LogOptions::defaults()
                          ->logExcept($this->hidden)
-                         ->logOnlyDirty();
+                         ->logAll();
     }
 
     public function canAccessPanel(Panel $panel): bool

@@ -6,7 +6,9 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use Filament\Support\Assets\Css;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Facades\Vite;
 use Filament\Http\Middleware\Authenticate;
 use Filament\FontProviders\GoogleFontProvider;
 use Illuminate\Session\Middleware\StartSession;
@@ -30,6 +32,13 @@ class AdminPanelProvider extends PanelProvider
             ->login(\App\Filament\Pages\Auth\Login::class)
             ->colors([
                 'primary' => Color::Emerald,
+            ])
+            ->assets([
+                Css::make('custom-style-sheet',
+                    Vite::useHotFile('app.hot')
+                        ->useBuildDirectory('app')
+                        ->asset('resources/css/app.css', 'app')
+                ),
             ])
             ->font('Inter', provider: GoogleFontProvider::class)
             ->passwordReset()
