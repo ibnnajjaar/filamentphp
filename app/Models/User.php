@@ -6,13 +6,16 @@ namespace App\Models;
 use Filament\Panel;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\Activitylog\LogOptions;
 use App\Support\Enums\UserStatuses;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasAvatar;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Filament\Models\Contracts\FilamentUser;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\CausesActivity;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,6 +29,8 @@ class User extends Authenticatable implements HasMedia, FilamentUser, HasAvatar
     use SoftDeletes;
     use HasRoles;
     use InteractsWithMedia;
+    use LogsActivity;
+    use CausesActivity;
 
 
     protected $attributes = [
@@ -67,6 +72,13 @@ class User extends Authenticatable implements HasMedia, FilamentUser, HasAvatar
         }
 
         return $query->where('id', -1);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+                         ->logExcept($this->hidden)
+                         ->logOnlyDirty();
     }
 
     public function canAccessPanel(Panel $panel): bool
