@@ -9,31 +9,17 @@
         <table class="min-w-full divide-y divide-gray-300">
             <thead class="bg-gray-50">
             <tr>
-                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                    Attribute
-                </th>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Attribute</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Old</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">New</th>
             </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
             @foreach ($old as $key => $value)
-                @php
-                    $isDifferent = $value !== ($attributes[$key] ?? '');
-                @endphp
                 <tr>
-                    <td @class([
-                            'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6',
-                            'bg-red-50 text-red-500' => $isDifferent,
-                        ])>{{ $key }}</td>
-                    <td @class([
-                            'whitespace-nowrap px-3 py-4 text-sm text-gray-500',
-                            'bg-red-50 text-red-500' => $isDifferent,
-                        ])>{{ $value }}</td>
-                    <td @class([
-                            'whitespace-nowrap px-3 py-4 text-sm text-gray-500',
-                            'bg-red-50 text-red-500' => $isDifferent,
-                    ])>{{ $attributes[$key] ?? '' }}</td>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ $key }}</td>
+                    <td class="whitespace-nowrap bg-red-50 px-3 py-4 text-sm text-gray-500">{{ $value }}</td>
+                    <td class="whitespace-nowrap bg-green-50 px-3 py-4 text-sm text-gray-500">{{ $attributes[$key] ?? '' }}</td>
                 </tr>
             @endforeach
             </tbody>
