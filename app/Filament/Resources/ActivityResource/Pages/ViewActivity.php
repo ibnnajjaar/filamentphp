@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ActivityResource\Pages;
 
 use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\Section;
 use App\Filament\Resources\ActivityResource;
 use Filament\Actions;
@@ -37,9 +38,11 @@ class ViewActivity extends ViewRecord
                              ->formatStateUsing(fn($record) => $record->created_at?->format('d F Y H:i:s'))
                              ->inlineLabel(),
                 ])->columns(1),
-                Section::make()->schema([
-                    LogPropertyEntry::make('properties')
-                ])
+                Grid::make()
+                       ->schema([
+                           LogPropertyEntry::make('properties')
+                                           ->maxWidth('full'),
+                       ])->columns(1),
             ]);
     }
 }
