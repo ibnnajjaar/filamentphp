@@ -104,4 +104,11 @@ class User extends Authenticatable implements HasMedia, FilamentUser, HasAvatar
             return $this->avatarImages->first()?->getUrl() ?: asset('images/anonymous-user.jpg');
         });
     }
+
+    public function formattedName(): Attribute
+    {
+        return Attribute::get(function () {
+            return $this->name;
+        });
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
 use App\Filament\Resources\RoleResource\Pages;
