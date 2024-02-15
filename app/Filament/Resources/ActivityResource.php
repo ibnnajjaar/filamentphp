@@ -25,18 +25,19 @@ class ActivityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('description')
-                                         ->label('Event')
-                                         ->searchable()
-                                         ->sortable(),
+                Tables\Columns\TextColumn::make('causer')
+                                         ->label('User')
+                                         ->formatStateUsing(function ($record) {
+                                             return $record->causer?->formatted_name;
+                                         }),
                 Tables\Columns\TextColumn::make('Subject')
                                          ->formatStateUsing(function ($record) {
                                              return $record->subject?->formatted_name;
                                          }),
-                Tables\Columns\TextColumn::make('User')
-                                         ->formatStateUsing(function ($record) {
-                                             return $record->causer?->formatted_name;
-                                         }),
+                Tables\Columns\TextColumn::make('description')
+                                         ->label('Event')
+                                         ->searchable()
+                                         ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                                          ->label('Logged At')
                                          ->searchable()
@@ -66,7 +67,7 @@ class ActivityResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListActivities::route('/'),
+            'index' => Pages\ListActivities::route('/'),
             'view'  => Pages\ViewActivity::route('/{record}'),
         ];
     }

@@ -1,12 +1,14 @@
 <x-dynamic-component :component="$getEntryWrapperView()"
                      class="w-full"
                      :entry="$entry">
+
     @php
         $old = $getState()['old'] ?? [];
         $attributes = $getState()['attributes'] ?? [];
     @endphp
     <div class="overflow-hidden border border-gray-200 sm:rounded-lg w-full">
-        <table class="min-w-full divide-y divide-gray-300">
+        <div class="bg-white p-4 font-semibold border-b border-gray-200">{{ str($entry->getName())->title()->toString() }}</div>
+        <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
             <tr>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Attribute</th>

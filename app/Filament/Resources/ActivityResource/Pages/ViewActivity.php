@@ -39,10 +39,20 @@ class ViewActivity extends ViewRecord
                              ->inlineLabel(),
                 ])->columns(1),
                 Grid::make()
-                       ->schema([
-                           LogPropertyEntry::make('properties')
-                                           ->maxWidth('full'),
-                       ])->columns(1),
+                    ->schema([
+                        LogPropertyEntry::make('properties')
+                                        ->hiddenLabel()
+                                        ->maxWidth('full'),
+                    ])->columns(1),
             ]);
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\Action::make('view_all')
+            ->url(route('filament.admin.resources.activities.index'))
+            ->label('View All')
+        ];
     }
 }
