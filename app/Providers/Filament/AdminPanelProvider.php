@@ -6,6 +6,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use App\Settings\SiteSettings;
 use Filament\Support\Assets\Css;
 use Filament\Support\Colors\Color;
 use Illuminate\Support\Facades\Vite;
@@ -27,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->brandName(app(SiteSettings::class)->site_name)
             ->id('admin')
             ->path('admin')
             ->login(\App\Filament\Pages\Auth\Login::class)
