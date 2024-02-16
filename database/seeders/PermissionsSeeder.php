@@ -39,9 +39,17 @@ class PermissionsSeeder extends Seeder
             'role' => [
                 'view roles',
                 'view any role',
-                'edit any role',
+                'edit role',
+                'delete role',
                 'delete any role',
             ],
+            'logs' => [
+                'view logs',
+            ],
+            'settings' => [
+                'view settings',
+                'edit settings',
+            ]
         ];
     }
 }

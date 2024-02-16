@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Policies\SettingPolicy;
+use App\Policies\ActivityPolicy;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\LaravelSettings\Models\SettingsProperty;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -13,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        Activity::class => ActivityPolicy::class,
     ];
 
     /**
