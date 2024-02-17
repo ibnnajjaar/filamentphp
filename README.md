@@ -8,9 +8,13 @@ All required features are already implemented, tested, and ready to be deployed.
 4. Site Settings
 
 ## Installation
-Clone the repository and run the following commands:
+Clone the repository.
+Create a new database and update the .env file with your database credentials.
+Run the following commands:
+
 ```bash
 composer install
+php artisan key:generate
 php artisan migrate
 php artisan db:seed
 php artisan storage:link

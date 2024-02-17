@@ -28,7 +28,13 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->brandName(app(SiteSettings::class)->site_name)
+            ->brandName(function () {
+                $settings = app(SiteSettings::class) ?? null;
+                if ($settings) {
+                    return $settings->site_name;
+                }
+                return 'Filament';
+            })
             ->id('admin')
             ->path('admin')
             ->login(\App\Filament\Pages\Auth\Login::class)
