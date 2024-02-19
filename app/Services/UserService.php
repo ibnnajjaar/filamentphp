@@ -11,7 +11,11 @@ use App\DataObjects\UserPasswordData;
 class UserService
 {
 
-    public function updateOrCreate(UserData $user_data, User | null $user = null): User
+    public function updateOrCreate(
+        UserData $user_data,
+        User | null $user = null,
+        UserPasswordData $password_data = null
+    ): User
     {
         if (! $user) {
             $user = new User;
@@ -26,15 +30,21 @@ class UserService
             $user->status = $user_data->status;
         }
 
+        if ($password_data) {
+            $this->updatePassword($user, $password_data, false);
+        }
+
         $user->save();
         $this->assignRole($user, $user_data);
         return $user;
     }
 
-    public function updatePassword(User $user, UserPasswordData $passwordData): User
+    public function updatePassword(User $user, UserPasswordData $passwordData, bool $save = true): User
     {
         $user->password = Hash::make($passwordData->password);
-        $user->save();
+        if ($save) {
+            $user->save();
+        }
 
         return $user;
     }

@@ -28,9 +28,7 @@ class CreateUser extends CreateRecord
     protected function handleRecordCreation(array $data): Model
     {
         $user_data = UserData::fromArray($data);
-        $user = (new UserService)->updateOrCreate($user_data);
-
         $passwordData = UserPasswordData::fromArray($data);
-        return (new UserService)->updatePassword($user, $passwordData);
+        return (new UserService)->updateOrCreate($user_data, password_data: $passwordData);
     }
 }
