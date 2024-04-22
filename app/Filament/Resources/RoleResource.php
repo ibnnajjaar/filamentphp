@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Models\Role;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Models\Permission;
+use App\Models\Permission;
 use App\Filament\Resources\RoleResource\Pages;
 use App\Filament\Components\Forms\PermissionSelector;
 use App\Filament\Resources\RoleResource\RelationManagers;
@@ -41,9 +41,10 @@ class RoleResource extends Resource
                            Forms\Components\TextInput::make('description')
                                                      ->maxLength(255),
                            PermissionSelector::make('permissions')
-                           ->options(function () {
-                               return Permission::all()->groupBy('model')->sort();
-                           }),
+                               ->selectedOptions(fn(Role $role) => $role->permissions->pluck('id')->toArray())
+                               ->options(function () {
+                                   return Permission::getPermissionModels();
+                               }),
 //                           Forms\Components\CheckboxList::make('permissions')
 //                                                        ->relationship(
 //                                                            name: 'permissions',
