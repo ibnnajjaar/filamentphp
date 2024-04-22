@@ -30,7 +30,7 @@ Boost your Laravel projects with Project Yesterday to meet tight deadlines by de
 To get started with Project Yesterday:
 
 1. Login Credentials:
-   - Use the following credentials to log in:
+   - Visit `/admin` and use the following credentials to log in:
      - Email: admin@example.com 
      - Password: password
 
