@@ -5,7 +5,9 @@ namespace App\Filament\Resources;
 use App\Models\Role;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Permission;
 use App\Filament\Resources\RoleResource\Pages;
+use App\Filament\Components\Forms\PermissionSelector;
 use App\Filament\Resources\RoleResource\RelationManagers;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -38,17 +40,21 @@ class RoleResource extends Resource
                                                      ->maxLength(255),
                            Forms\Components\TextInput::make('description')
                                                      ->maxLength(255),
-                           Forms\Components\CheckboxList::make('permissions')
-                                                        ->relationship(
-                                                            name: 'permissions',
-                                                            titleAttribute: 'name',
-                                                            modifyQueryUsing: fn(Builder $query) => $query->orderBy('model', 'ASC')
-                                                        )
-                                                        ->getOptionLabelFromRecordUsing(fn(Model $record) => str($record->name)->title())
-                                                        ->gridDirection('row')
-                                                        ->columns(2)
-                                                        ->bulkToggleable()
-                                                        ->searchable(),
+                           PermissionSelector::make('permissions')
+                           ->options(function () {
+                               return Permission::all()->groupBy('model')->sort();
+                           }),
+//                           Forms\Components\CheckboxList::make('permissions')
+//                                                        ->relationship(
+//                                                            name: 'permissions',
+//                                                            titleAttribute: 'name',
+//                                                            modifyQueryUsing: fn(Builder $query) => $query->orderBy('model', 'ASC')
+//                                                        )
+//                                                        ->getOptionLabelFromRecordUsing(fn(Model $record) => str($record->name)->title())
+//                                                        ->gridDirection('row')
+//                                                        ->columns(2)
+//                                                        ->bulkToggleable()
+//                                                        ->searchable(),
                        ])
                        ->columns(1),
             ]);
