@@ -2,7 +2,11 @@
 
 namespace App\Providers\Filament;
 
+use App\Settings\SiteSettings;
+use Filament\Support\Assets\Css;
+use Illuminate\Support\Facades\Vite;
 use Filament\Http\Middleware\Authenticate;
+use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
@@ -24,12 +28,28 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->brandName(function () {
+                $settings = app(SiteSettings::class) ?? null;
+                if ($settings) {
+                    return $settings->site_name;
+                }
+                return 'Filament';
+            })
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(\App\Filament\Pages\Auth\Login::class)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Emerald,
             ])
+            ->assets([
+                Css::make('custom-style-sheet',
+                    Vite::useHotFile('app.hot')
+                        ->useBuildDirectory('app')
+                        ->asset('resources/css/app.css', 'app')
+                ),
+            ])
+            ->font('Inter', provider: GoogleFontProvider::class)
+            ->passwordReset()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -38,7 +58,6 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
