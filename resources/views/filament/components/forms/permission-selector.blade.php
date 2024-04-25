@@ -45,6 +45,10 @@
                     />
                 </div>
             </div>
+            <div class="mt-2">
+                <div class="text-sm font-semibold text-primary-600 cursor-pointer" x-show="! allPermissionsAreSelected()" @click="selectAllPermissions()">Select all permissions</div>
+                <div class="text-sm font-semibold text-primary-600 cursor-pointer" x-show="allPermissionsAreSelected()" @click="deselectAllPermissions()">Deselect all permissions</div>
+            </div>
         </div>
         <div class="flex flex-col space-y-4">
             <template x-for="(modelPermission, index) in displayedModels" :key="index">
@@ -74,40 +78,3 @@
         </div>
     </div>
 </x-dynamic-component>
-
-
-
-{{--        <div class="border-b border-gray-200 pb-6">--}}
-{{--            <div class="grid grid-flow-col grid-cols-2 gap-4">--}}
-{{--                <div class="col-span-1">--}}
-{{--                    <label class="flex fi-fo-field-wrp-label items-center gap-x-3 mb-2" for="data.description">--}}
-{{--                    <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">--}}
-{{--                        Search by Models--}}
-{{--                    </span>--}}
-{{--                    </label>--}}
-{{--                    <input class="flex w-full px-3 pt-1.5 pb-2 rounded-lg border text-sm border-gray-200"--}}
-{{--                           id="permissions-model"--}}
-{{--                           maxlength="255"--}}
-{{--                           type="text"--}}
-{{--                           x-model="search_models"--}}
-{{--                           @keyup="searchByModels()"--}}
-{{--                    />--}}
-{{--                </div>--}}
-{{--                <div class="col-span-1">--}}
-{{--                    <label class="flex fi-fo-field-wrp-label items-center gap-x-3 mb-2" for="data.description">--}}
-{{--                    <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">--}}
-{{--                        Search by Permissions--}}
-{{--                    </span>--}}
-{{--                    </label>--}}
-{{--                    <input class="flex w-full px-3 pt-1.5 pb-2 rounded-lg text-sm border border-gray-200"--}}
-{{--                           id="permissions-model"--}}
-{{--                           maxlength="255"--}}
-{{--                           type="text"--}}
-{{--                    />--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="text-sm text-gray-800 font-medium mt-4">--}}
-{{--                <div>Deselect all permissions</div>--}}
-{{--                <div>Select all permissions</div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
