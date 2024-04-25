@@ -20,29 +20,51 @@
             <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-1">
                     <label class="" for="data.description">
-                <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
-                    Search by Models
-                </span>
+                        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
+                            Search by Models
+                        </span>
                     </label>
-                    <input class="flex w-full px-3 pt-1.5 pb-2 rounded-lg border text-sm border-gray-200"
-                           maxlength="255"
-                           type="text"
-                           x-model="searchByModels"
-                           @keyup.prevent="searchModels"
-                    />
+                    <div class="relative">
+                        <input class="flex w-full px-3 pt-1.5 pb-2 rounded-lg border text-sm border-gray-200"
+                               maxlength="255"
+                               type="text"
+                               x-model="searchByModels"
+                               @keyup.prevent="searchModels"
+                        />
+                        <div x-show="searchByModels.length != 0"
+                             @click="clearSearchByModels"
+                             class="absolute right-[5px] top-[10px] cursor-pointer text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke-width="1.5" stroke="currentColor"
+                                 class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-span-1">
                     <label class="" for="data.description">
-                <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
-                    Search by Permissions
-                </span>
+                        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
+                            Search by Permissions
+                        </span>
                     </label>
-                    <input class="flex w-full px-3 pt-1.5 pb-2 rounded-lg border text-sm border-gray-200"
-                           maxlength="255"
-                           type="text"
-                           x-model="searchByPermissions"
-                           @keyup.prevent="searchPermissions"
-                    />
+                    <div class="relative">
+                        <input class="flex w-full px-3 pt-1.5 pb-2 rounded-lg border text-sm border-gray-200"
+                               maxlength="255"
+                               type="text"
+                               x-model="searchByPermissions"
+                               @keyup.prevent="searchPermissions"
+                        />
+                        <div x-show="searchByPermissions.length != 0"
+                             @click="clearSearchByPermissions"
+                             class="absolute right-[5px] top-[10px] cursor-pointer text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke-width="1.5" stroke="currentColor"
+                                 class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="mt-2">

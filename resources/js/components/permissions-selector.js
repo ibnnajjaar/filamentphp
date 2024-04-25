@@ -55,7 +55,46 @@ export default function permissionsSelector({
 
         isChecked(permissionId) {
             return this.state.includes(permissionId);
-        }
+        },
+
+        isSearchingByModels() {
+            return this.searchByModels.length > 0;
+        },
+
+        clearSearchByModels() {
+            this.searchByModels = '';
+            this.searchModels();
+        },
+
+        clearSearchByPermissions() {
+            this.searchByPermissions = '';
+            this.searchPermissions();
+        },
+
+        allPermissionsAreSelected() {
+            // Count the permissions in modelPermissions
+            let permissionsCount = 0;
+            this.modelPermissions.forEach((modelPermission) => {
+                permissionsCount += modelPermission.permissions.length;
+            });
+
+            return this.selectedModelPermissions.length === permissionsCount;
+        },
+
+        selectAllPermissions() {
+            let permissions = [];
+            this.modelPermissions.forEach((modelPermission) => {
+                modelPermission.permissions.forEach((permission) => {
+                    permissions.push(permission.id);
+                });
+            });
+
+            this.selectedModelPermissions = permissions;
+        },
+
+        deselectAllPermissions() {
+            this.selectedModelPermissions = [];
+        },
 
     }
 }
