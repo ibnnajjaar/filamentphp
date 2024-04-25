@@ -42,19 +42,19 @@ export default function permissionsSelector({
         },
 
         updatePermission(permissionId) {
-            const index = this.state.indexOf(permissionId);
+            const index = this.selectedModelPermissions.indexOf(permissionId);
 
             // If the permission is not in the state, add it
             if (index === -1) {
-                this.state.push(permissionId);
+                this.selectedModelPermissions.push(permissionId);
             } else {
                 // If the permission is in the state, remove it
-                this.state.splice(index, 1);
+                this.selectedModelPermissions.splice(index, 1);
             }
         },
 
         isChecked(permissionId) {
-            return this.state.includes(permissionId);
+            return this.selectedModelPermissions.includes(permissionId);
         },
 
         isSearchingByModels() {
@@ -83,7 +83,11 @@ export default function permissionsSelector({
 
         selectAllPermissions() {
             let permissions = [];
-            this.modelPermissions.forEach((modelPermission) => {
+            if (this.displayedModelPermissions.length === 0) {
+                this.displayedModelPermissions = this.modelPermissions;
+            }
+
+            this.displayedModelPermissions.forEach((modelPermission) => {
                 modelPermission.permissions.forEach((permission) => {
                     permissions.push(permission.id);
                 });
@@ -93,7 +97,17 @@ export default function permissionsSelector({
         },
 
         deselectAllPermissions() {
-            this.selectedModelPermissions = [];
+            let permissions = [];
+            this.displayedModelPermissions.forEach((modelPermission) => {
+                modelPermission.permissions.forEach((permission) => {
+                    permissions.push(permission.id);
+                });
+            });
+
+            // remove permissions from selectedModelPermissions
+            this.selectedModelPermissions = this.selectedModelPermissions.filter(permission => {
+                return !permissions.includes(permission);
+            });
         },
 
     }
