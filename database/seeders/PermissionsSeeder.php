@@ -44,6 +44,7 @@ class PermissionsSeeder extends Seeder
                 'delete any role',
             ],
             'logs' => [
+                'view any log',
                 'view logs',
             ],
             'settings' => [
