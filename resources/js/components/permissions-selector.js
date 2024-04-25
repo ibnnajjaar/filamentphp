@@ -7,10 +7,38 @@ export default function permissionsSelector({
         state,
         modelPermissions,
         selectedModelPermissions,
+        searchByModels: '',
+        searchByPermissions: '',
+        displayedModels: [],
+        displayedModelPermissions: [],
 
         init: function () {
             // set the state to empty array
             this.state = this.selectedModelPermissions ?? [];
+            this.displayedModels = this.modelPermissions;
+        },
+
+        searchModels() {
+            this.displayedModels = this.modelPermissions.filter(modelPermission => {
+                return modelPermission.model.toLowerCase().includes(this.searchByModels.toLowerCase());
+            });
+
+            this.displayedModelPermissions = this.displayedModels;
+        },
+
+        searchPermissions() {
+            if (this.displayedModelPermissions.length === 0) {
+                this.displayedModelPermissions = this.modelPermissions;
+            }
+
+            this.displayedModels = this.displayedModelPermissions.map(modelPermission => {
+                return {
+                    model: modelPermission.model,
+                    permissions: modelPermission.permissions.filter(permission => {
+                        return permission.name.toLowerCase().includes(this.searchByPermissions.toLowerCase());
+                    })
+                }
+            })
         },
 
         updatePermission(permissionId) {
